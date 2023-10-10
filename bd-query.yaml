@@ -1,0 +1,32 @@
+---
+- hosts: apic
+  connection: local
+  gather_facts: False
+  ignore_errors: yes
+
+  vars:
+    contents: "{{ lookup('file', './bd-l3out.txt') }}"
+    lines: "{{ contents.split('\n') }}"
+    login_info: &login_info
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: false
+
+  tasks:
+    - name: Query All Bridge Domains
+      cisco.aci.aci_bd:
+        <<: *login_info
+        state: query
+      delegate_to: localhost
+      register: query_result
+      
+    - name: what happened
+      ansible.builtin.debug:
+        msg: "{{ query_result.current }}"
+       #var: query_result
+
+    - name: Reroute the output to a file
+      ansible.builtin.copy:
+        content: "{{ query_result.current }}"
+        dest: "./fvBD.json"
