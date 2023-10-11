@@ -5,11 +5,17 @@
   ignore_errors: yes
 
   vars:
+    contents: "{{ lookup('file', './bd-list.txt') }}"
+    lines: "{{ contents.split('\n') }}"
     login_info: &login_info
       host: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
       validate_certs: false
+    
+    l3out: "L3-NEW"
+    vrf: "VRF-ANDRISKA-IAC"
+    tenant: "TN-ANDRISKA-IAC"
 
   tasks:
     - name: Query All Bridge Domains
@@ -28,3 +34,18 @@
       ansible.builtin.copy:
         content: "{{ query_result.current }}"
         dest: "./fvBD.json"
+    
+    - name: Execute Python Script
+      ansible.builtin.script:
+        cmd: bd-list-creator.py
+        executable: /usr/bin/python3
+
+    - name: Bind Bridge Domain to L3 Out
+      cisco.aci.aci_bd_to_l3out:
+        <<: *login_info
+        bd:                     "{{ item.split(',')[0] }}"
+        l3out:                  "{{ l3out }}"
+        tenant:                 "{{ tenant }}"
+        state:                  present
+      with_items:
+        - "{{ lines }}"      
