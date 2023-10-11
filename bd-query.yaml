@@ -5,8 +5,6 @@
   ignore_errors: yes
 
   vars:
-    contents: "{{ lookup('file', './bd-l3out.txt') }}"
-    lines: "{{ contents.split('\n') }}"
     login_info: &login_info
       host: "{{ inventory_hostname }}"
       username: "{{ username }}"
@@ -21,7 +19,7 @@
       delegate_to: localhost
       register: query_result
       
-    - name: what happened
+    - name: Output to screen
       ansible.builtin.debug:
         msg: "{{ query_result.current }}"
        #var: query_result
