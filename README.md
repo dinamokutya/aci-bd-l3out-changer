@@ -4,13 +4,13 @@
 ```sh
 ansible-playbook -i inventory bd-query.yaml
 ```
-2. bd-list-creator.py creates a list of BDs under a certain VRF. The result saved to bd-list.txt
-   specify the VRF in python file
+2. bd-list-creator.py creates a list of BDs filtered against a VRF. The imput file is fvBD.json The result saved to bd-list.txt Input parameter is the VRF.
+   Specify the VRF in python file
 ```sh
 python3 bd-list-creator.py
 ```
 3. Ansible playbook bd-l3-bind.yaml cahnges the L3out of all BDs present in bd-list.txt
-   specify the
+   Specify the
    * Tenant name
    * L3out name
   in playbook file as variable
