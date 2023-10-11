@@ -1,9 +1,6 @@
 [apic:vars]
-# username=admin
-# password=!v3G@!4@Y
 username=admin
-password=1loveSNT
+password=!v3G@!4@Y
 
 [apic]
-# sandboxapicdc.cisco.com
-10.211.161.40
+sandboxapicdc.cisco.com

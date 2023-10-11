@@ -1,6 +1,7 @@
 import json
+import sys
 
-VRF = 'VRF-ANDRISKA-IAC'
+VRF = sys.argv[1]
 
 f = open('fvBD.json')
 f2 = open("bd-list.txt", "w")

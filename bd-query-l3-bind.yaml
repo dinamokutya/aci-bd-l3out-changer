@@ -12,11 +12,11 @@
       username: "{{ username }}"
       password: "{{ password }}"
       validate_certs: false
-    
+    #####################
     l3out: "L3-NEW"
     vrf: "VRF-ANDRISKA-IAC"
     tenant: "TN-ANDRISKA-IAC"
-
+    #####################
   tasks:
     - name: Query All Bridge Domains
       cisco.aci.aci_bd:
@@ -37,7 +37,7 @@
     
     - name: Execute Python Script
       ansible.builtin.script:
-        cmd: bd-list-creator.py
+        cmd: bd-list-creator.py "{{ vrf }}"
         executable: /usr/bin/python3
 
     - name: Bind Bridge Domain to L3 Out
